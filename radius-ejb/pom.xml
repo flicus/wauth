@@ -3,24 +3,24 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.ffff</groupId>
-    <artifactId>radius-ejb</artifactId>
+    <groupId>net.ffff.radius-ra</groupId>
+    <artifactId>radius-ra-ejb</artifactId>
     <packaging>ejb</packaging>
-    <name>radius-ejb</name>
+    <version>1.0</version>
 
     <parent>
         <groupId>net.ffff</groupId>
         <artifactId>radius-ra</artifactId>
-        <version>1.0.0</version>
+        <version>1.0</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>radius-rar</artifactId>
-            <version>${project.version}</version>
+            <groupId>net.ffff.radius-ra</groupId>
+            <artifactId>radius-ra-rar</artifactId>
+            <version>1.0</version>
             <classifier>lib</classifier>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -32,13 +32,6 @@
                 <version>${maven.ejb.plugin.version}</version>
                 <configuration>
                     <ejbVersion>3.2</ejbVersion>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
         </plugins>

@@ -6,7 +6,7 @@
     <artifactId>radius-ra</artifactId>
     <packaging>pom</packaging>
     <name>radius-ra</name>
-    <version>1.0.0</version>
+    <version>1.0</version>
 
     <modules>
         <module>radius-rar</module>
@@ -15,9 +15,7 @@
     </modules>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.groupId>net.ffff</project.groupId>
-        <project.version>1.0.0</project.version>
+        <version.org.jboss.ironjacamar>1.1.8.Final</version.org.jboss.ironjacamar>
         <javaee.api.version>7.0</javaee.api.version>
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>
@@ -28,198 +26,138 @@
         <maven.ejb.plugin.version>2.3</maven.ejb.plugin.version>
         <maven.jar.plugin.version>2.4</maven.jar.plugin.version>
         <maven.rar.plugin.version>2.3</maven.rar.plugin.version>
-        <maven.license.plugin.version>1.10.b1</maven.license.plugin.version>
-        <maven.release.plugin.version>2.4.1</maven.release.plugin.version>
-        <maven.exec.plugin.version>1.2.1</maven.exec.plugin.version>
-        <junit.version>4.11</junit.version>
-        <eclipselink.version>2.5.0</eclipselink.version>
-        <glassfish.embedded.version>4.0</glassfish.embedded.version>
-        <cargo.plugin.version>1.4.4</cargo.plugin.version>
-        <glassfish.domain.name>domain1</glassfish.domain.name>
-        <glassfish.home>${glassfish.home.prefix}/glassfish4</glassfish.home>
-        <integration.container.id>glassfish4x</integration.container.id>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>windows</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                </os>
-            </activation>
-            <properties>
-                <glassfish.home.prefix>c:/</glassfish.home.prefix>
-                <glassfish.executables.suffix>.bat</glassfish.executables.suffix>
-            </properties>
-        </profile>
-        <profile>
-            <id>unix</id>
-            <activation>
-                <os>
-                    <family>unix</family>
-                </os>
-            </activation>
-            <properties>
-                <glassfish.home.prefix>${user.home}</glassfish.home.prefix>
-                <glassfish.executables.suffix/>
-            </properties>
-        </profile>
-        <profile>
-            <id>sdk</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <glassfish.home>${basedir}/../../../</glassfish.home>
-            </properties>
-        </profile>
-        <profile>
-            <id>development</id>
-            <activation>
-                <file>
-                    <exists>${basedir}/../bundle</exists>
-                </file>
-            </activation>
-            <properties>
-                <glassfish.home>${glassfish.home.prefix}/glassfish4</glassfish.home>
-            </properties>
-        </profile>
-        <profile>
-            <id>standalone</id>
-            <properties>
-                <glassfish.home>${basedir}/target/cargo/installs/glassfish</glassfish.home>
-                <cargo.maven.containerUrl>http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/latest-glassfish.zip
-                </cargo.maven.containerUrl>
-            </properties>
-        </profile>
-    </profiles>
-
-    <repositories>
-        <repository>
-            <id>snapshot-repository.java.net</id>
-            <name>Java.net Snapshot Repository for Maven</name>
-            <url>https://maven.java.net/content/repositories/staging/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>releases-repository.java.net</id>
-            <name>Java.net releases Repository for Maven</name>
-            <url>https://maven.java.net/content/repositories/releases/</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
-    <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven.compiler.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven.source.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven.clean.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>${maven.war.plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.cargo</groupId>
-                    <artifactId>cargo-maven2-plugin</artifactId>
-                    <version>${cargo.plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <inherited>true</inherited>
-                <executions>
-                    <execution>
-                        <id>deploy</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>redeploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <container>
-                        <containerId>${integration.container.id}</containerId>
-                        <type>installed</type>
-                        <home>${glassfish.home}</home>
-                    </container>
-                    <configuration>
-                        <type>existing</type>
-                        <home>${glassfish.home}/glassfish/domains</home>
-                        <properties>
-                            <cargo.glassfish.domain.name>${glassfish.domain.name}</cargo.glassfish.domain.name>
-                            <!--cargo.remote.username></cargo.remote.username-->
-                            <cargo.remote.password/>
-                        </properties>
-                    </configuration>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila.maven-license-plugin</groupId>
-                <artifactId>maven-license-plugin</artifactId>
-                <version>${maven.license.plugin.version}</version>
-                <configuration>
-                    <header>common/license.txt</header>
-                    <excludes>
-                        <exclude>common/**</exclude>
-                        <exclude>**/META-INF/**</exclude>
-                        <exclude>**/WEB-INF/**</exclude>
-                        <exclude>**/nbactions.xml</exclude>
-                        <exclude>**/nb-configuration.xml</exclude>
-                        <exclude>**/glassfish-resources.xml</exclude>
-                        <exclude>**/simple-flow-flow.xml</exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>${maven.release.plugin.version}</version>
-                <configuration>
-                    <!--
-                     During release:perform, enable the "sdk" profile
-                    -->
-                    <releaseProfiles>sdk</releaseProfiles>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-
     <dependencies>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-spec-api</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-arquillian-embedded</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-arquillian-embedded-byteman</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-common-api</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-common-spi</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-common-impl</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-core-api</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-core-impl</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-depchain</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-deployers-common</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-deployers-fungal</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-embedded</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-test-eis</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.ironjacamar</groupId>
+            <artifactId>ironjacamar-validator</artifactId>
+            <version>${version.org.jboss.ironjacamar}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${javaee.api.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jboss.ejb3</groupId>
+            <artifactId>jboss-ejb3-ext-api</artifactId>
+            <version>2.1.0</version>
+        </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jboss.ironjacamar</groupId>
+                <artifactId>ironjacamar-depchain</artifactId>
+                <version>${version.org.jboss.ironjacamar}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>jboss</id>
+            <url>http://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>http://repository.jboss.org/nexus/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>fungal</id>
+            <url>http://jesperpedersen.github.com/fungal/maven2</url>
+        </repository>
+    </repositories>
 
 </project>

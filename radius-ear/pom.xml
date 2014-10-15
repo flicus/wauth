@@ -2,28 +2,28 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>net.ffff</groupId>
-    <artifactId>radius-ear</artifactId>
+    <groupId>net.ffff.radius-ra</groupId>
+    <artifactId>radius-ra-ear</artifactId>
     <packaging>ear</packaging>
-    <name>radius-ear</name>
+    <version>1.0</version>
 
     <parent>
         <groupId>net.ffff</groupId>
         <artifactId>radius-ra</artifactId>
-        <version>1.0.0</version>
+        <version>1.0</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>radius-ejb</artifactId>
-            <version>${project.version}</version>
+            <groupId>net.ffff.radius-ra</groupId>
+            <artifactId>radius-ra-ejb</artifactId>
+            <version>1.0</version>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>radius-rar</artifactId>
-            <version>${project.version}</version>
+            <groupId>net.ffff.radius-ra</groupId>
+            <artifactId>radius-ra-rar</artifactId>
+            <version>1.0</version>
             <type>rar</type>
         </dependency>
     </dependencies>
@@ -38,16 +38,16 @@
                     <finalName>radius-ear</finalName>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
                     <modules>
-                        <ejbModule>
-                            <groupId>net.ffff</groupId>
-                            <artifactId>radius-ejb</artifactId>
-                            <bundleFileName>radius-ejb.jar</bundleFileName>
-                        </ejbModule>
                         <rarModule>
-                            <groupId>net.ffff</groupId>
-                            <artifactId>radius-rar</artifactId>
-                            <bundleFileName>radius-rar.rar</bundleFileName>
+                            <groupId>net.ffff.radius-ra</groupId>
+                            <artifactId>radius-ra-rar</artifactId>
+                            <bundleFileName>radius-ra-rar.rar</bundleFileName>
                         </rarModule>
+                        <ejbModule>
+                            <groupId>net.ffff.radius-ra</groupId>
+                            <artifactId>radius-ra-ejb</artifactId>
+                            <bundleFileName>radius-ra-ejb.jar</bundleFileName>
+                        </ejbModule>
                     </modules>
                 </configuration>
             </plugin>

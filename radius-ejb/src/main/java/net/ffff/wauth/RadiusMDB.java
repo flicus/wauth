@@ -2,6 +2,7 @@ package net.ffff.wauth;
 
 import net.ffff.wauth.inflow.RadiusMessageListener;
 import net.ffff.wauth.protocol.RadiusRequest;
+import org.jboss.ejb3.annotation.ResourceAdapter;
 
 import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
@@ -10,6 +11,7 @@ import javax.inject.Inject;
 import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.Topic;
+
 
 /**
  * Copyright (c) 2013 Amdocs jNetX.
@@ -40,8 +42,9 @@ import javax.jms.Topic;
                         propertyValue = "4444"
                 )
         },
-        messageListenerInterface = RadiusMessageListener.class
+        messageListenerInterface = net.ffff.wauth.inflow.RadiusMessageListener.class
 )
+@ResourceAdapter(value = "radius-ra-rar.rar")
 public class RadiusMDB implements RadiusMessageListener {
 
     @Resource(lookup = "java:app/wauth/radius")
@@ -49,6 +52,9 @@ public class RadiusMDB implements RadiusMessageListener {
 
     @Inject
     private JMSContext jmsContext;
+
+    public RadiusMDB() {
+    }
 
     @Override
     public void onMessage(RadiusRequest request) {
