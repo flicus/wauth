@@ -30,36 +30,43 @@ import java.util.logging.Logger;
  *
  * @version $Revision: $
  */
-@Activation(messageListeners = { net.ffff.wauth.inflow.RadiusMessageListener.class })
-public class RadiusActivationSpec implements ActivationSpec
-{
+@Activation(
+        messageListeners = {net.ffff.wauth.inflow.RadiusMessageListener.class}
+)
+public class RadiusActivationSpec implements ActivationSpec {
 
-   /** The logger */
-   private static Logger log = Logger.getLogger(RadiusActivationSpec.class.getName());
+    /**
+     * The logger
+     */
+    private static Logger log = Logger.getLogger(RadiusActivationSpec.class.getName());
 
-   /** The resource adapter */
-   private ResourceAdapter ra;
+    /**
+     * The resource adapter
+     */
+    private ResourceAdapter ra;
 
-   /** port */
-   @ConfigProperty(defaultValue = "4444") @NotNull
-   private String port;
+    /**
+     * port
+     */
+    @ConfigProperty(defaultValue = "4444")
+    @NotNull
+    private String port;
 
-   /**
-    * Default constructor
-    */
-   public RadiusActivationSpec()
-   {
+    /**
+     * Default constructor
+     */
+    public RadiusActivationSpec() {
 
-   }
+    }
 
     /**
      * Get port
+     *
      * @return The value
      */
-    public String getPort()
-   {
-       return port;
-   }
+    public String getPort() {
+        return port;
+    }
 
     /**
      * Set port
@@ -70,39 +77,36 @@ public class RadiusActivationSpec implements ActivationSpec
         this.port = port;
     }
 
-   /**
-    * This method may be called by a deployment tool to validate the overall
-    * activation configuration information provided by the endpoint deployer.
-    *
-    * @throws InvalidPropertyException indicates invalid configuration property settings.
-    */
-   public void validate() throws InvalidPropertyException
-   {
-      log.finest("validate()");
+    /**
+     * This method may be called by a deployment tool to validate the overall
+     * activation configuration information provided by the endpoint deployer.
+     *
+     * @throws InvalidPropertyException indicates invalid configuration property settings.
+     */
+    public void validate() throws InvalidPropertyException {
+        log.finest("validate()");
 
-   }
+    }
 
-   /**
-    * Get the resource adapter
-    *
-    * @return The handle
-    */
-   public ResourceAdapter getResourceAdapter()
-   {
-      log.finest("getResourceAdapter()");
-      return ra;
-   }
+    /**
+     * Get the resource adapter
+     *
+     * @return The handle
+     */
+    public ResourceAdapter getResourceAdapter() {
+        log.finest("getResourceAdapter()");
+        return ra;
+    }
 
-   /**
-    * Set the resource adapter
-    *
-    * @param ra The handle
-    */
-   public void setResourceAdapter(ResourceAdapter ra)
-   {
-      log.finest("setResourceAdapter()");
-      this.ra = ra;
-   }
+    /**
+     * Set the resource adapter
+     *
+     * @param ra The handle
+     */
+    public void setResourceAdapter(ResourceAdapter ra) {
+        log.finest("setResourceAdapter()");
+        this.ra = ra;
+    }
 
 
 }

@@ -21,17 +21,15 @@
  */
 package net.ffff.wauth;
 
-import java.io.Serializable;
-
 import javax.resource.Referenceable;
+import java.io.Serializable;
 
 /**
  * RadiusAdminObject
  *
  * @version $Revision: $
  */
-public interface RadiusAdminObject extends Referenceable, Serializable
-{
+public interface RadiusAdminObject extends Referenceable, Serializable {
 
 
 }

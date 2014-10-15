@@ -28,11 +28,11 @@ import net.ffff.wauth.protocol.RadiusRequest;
  *
  * @version $Revision: $
  */
-public interface RadiusMessageListener
-{
-   /**
-    * Receive message
-    * @param msg String.
-    */
-   public void onMessage(RadiusRequest request);
+public interface RadiusMessageListener {
+    /**
+     * Receive message
+     *
+     * @param msg String.
+     */
+    public void onMessage(RadiusRequest request);
 }
