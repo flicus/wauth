@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="7"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/application_7.xsd">
+
+    <description>radius-ra</description>
+    <display-name>RadiusRA</display-name>
+    <module>
+        <ejb>radius-ra-ejb.jar</ejb>
+    </module>
+    <module>
+        <connector>radius-ra-rar.rar</connector>
+    </module>
+    <library-directory>lib</library-directory>
+</application>

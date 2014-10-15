@@ -6,7 +6,7 @@
     <artifactId>radius-ra</artifactId>
     <packaging>pom</packaging>
     <name>radius-ra</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <modules>
         <module>radius-rar</module>
@@ -16,6 +16,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.groupId>net.ffff</project.groupId>
+        <project.version>1.0.0</project.version>
         <javaee.api.version>7.0</javaee.api.version>
         <maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
         <maven.source.plugin.version>2.2.1</maven.source.plugin.version>

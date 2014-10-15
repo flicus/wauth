@@ -4,14 +4,14 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ffff</groupId>
-    <artifactId>radius-ra-rar</artifactId>
+    <artifactId>radius-rar</artifactId>
     <packaging>rar</packaging>
-    <version>1.0</version>
+    <name>radius-rar</name>
 
     <parent>
         <groupId>net.ffff</groupId>
         <artifactId>radius-ra</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <build>
@@ -37,7 +37,7 @@
                 <artifactId>maven-rar-plugin</artifactId>
                 <version>${maven.rar.plugin.version}</version>
                 <configuration>
-                    <finalName>radius-ra-rar</finalName>
+                    <finalName>radius-rar</finalName>
                     <rarSourceDirectory>${basedir}/target/classes</rarSourceDirectory>
                 </configuration>
             </plugin>
