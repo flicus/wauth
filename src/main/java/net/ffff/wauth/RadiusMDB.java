@@ -3,9 +3,13 @@ package net.ffff.wauth;
 import net.ffff.wauth.inflow.RadiusMessageListener;
 import net.ffff.wauth.protocol.RadiusRequest;
 
+import javax.annotation.Resource;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
+import javax.inject.Inject;
+import javax.jms.JMSContext;
 import javax.jms.JMSDestinationDefinition;
+import javax.jms.Topic;
 
 /**
  * Copyright (c) 2013 Amdocs jNetX.
@@ -24,11 +28,10 @@ import javax.jms.JMSDestinationDefinition;
  * $Id:
  */
 
-//todo
 @JMSDestinationDefinition(
-        name = "",
-        interfaceName = "",
-        destinationName = ""
+        name = "java:app/wauth/radius",
+        interfaceName = "javax.jms.Topic",
+        destinationName = "radius"
 )
 @MessageDriven(
         activationConfig = {
@@ -36,9 +39,16 @@ import javax.jms.JMSDestinationDefinition;
                         propertyName = "port",
                         propertyValue = "4444"
                 )
-        }
+        },
+        messageListenerInterface = RadiusMessageListener.class
 )
 public class RadiusMDB implements RadiusMessageListener {
+
+    @Resource(lookup = "java:app/wauth/radius")
+    private Topic topic;
+
+    @Inject
+    private JMSContext jmsContext;
 
     @Override
     public void onMessage(RadiusRequest request) {
