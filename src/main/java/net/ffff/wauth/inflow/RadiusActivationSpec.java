@@ -21,14 +21,10 @@
  */
 package net.ffff.wauth.inflow;
 
+import javax.resource.spi.*;
+import javax.validation.constraints.NotNull;
 import java.util.logging.Logger;
 
-import javax.resource.spi.Activation;
-import javax.resource.spi.ActivationSpec;
-import javax.resource.spi.ConfigProperty;
-import javax.resource.spi.InvalidPropertyException;
-import javax.resource.spi.ResourceAdapter;
-import javax.validation.constraints.NotNull;
 /**
  * RadiusActivationSpec
  *
@@ -46,7 +42,7 @@ public class RadiusActivationSpec implements ActivationSpec
 
    /** port */
    @ConfigProperty(defaultValue = "4444") @NotNull
-   private Integer port;
+   private String port;
 
    /**
     * Default constructor
@@ -56,23 +52,23 @@ public class RadiusActivationSpec implements ActivationSpec
 
    }
 
-   /** 
-    * Set port
-    * @param port The value
-    */
-   public void setPort(Integer port)
+    /**
+     * Get port
+     * @return The value
+     */
+    public String getPort()
    {
-      this.port = port;
+       return port;
    }
 
-   /** 
-    * Get port
-    * @return The value
-    */
-   public Integer getPort()
-   {
-      return port;
-   }
+    /**
+     * Set port
+     *
+     * @param port The value
+     */
+    public void setPort(String port) {
+        this.port = port;
+    }
 
    /**
     * This method may be called by a deployment tool to validate the overall

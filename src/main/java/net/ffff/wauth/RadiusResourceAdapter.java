@@ -24,19 +24,15 @@ package net.ffff.wauth;
 import net.ffff.wauth.inflow.RadiusActivation;
 import net.ffff.wauth.inflow.RadiusActivationSpec;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-import java.util.logging.Logger;
-
 import javax.resource.ResourceException;
-import javax.resource.spi.ActivationSpec;
-import javax.resource.spi.BootstrapContext;
-import javax.resource.spi.Connector;
-import javax.resource.spi.ResourceAdapter;
-import javax.resource.spi.ResourceAdapterInternalException;
+import javax.resource.spi.*;
+import javax.resource.spi.endpoint.MessageEndpoint;
 import javax.resource.spi.endpoint.MessageEndpointFactory;
-
+import javax.resource.spi.work.Work;
+import javax.resource.spi.work.WorkException;
+import javax.resource.spi.work.WorkManager;
 import javax.transaction.xa.XAResource;
+import java.util.logging.Logger;
 
 /**
  * RadiusResourceAdapter
@@ -53,15 +49,16 @@ public class RadiusResourceAdapter implements ResourceAdapter, java.io.Serializa
    /** The logger */
    private static Logger log = Logger.getLogger(RadiusResourceAdapter.class.getName());
 
-   /** The activations by activation spec */
-   private ConcurrentHashMap<RadiusActivationSpec, RadiusActivation> activations;
+    private RadiusActivation activation;
+    private WorkManager workManager;
+    private Work worker;
 
-   /**
+
+    /**
     * Default constructor
     */
    public RadiusResourceAdapter()
    {
-      this.activations = new ConcurrentHashMap<RadiusActivationSpec, RadiusActivation>();
 
    }
 
@@ -72,12 +69,33 @@ public class RadiusResourceAdapter implements ResourceAdapter, java.io.Serializa
     * @param spec An activation spec JavaBean instance.
     * @throws ResourceException generic exception 
     */
-   public void endpointActivation(MessageEndpointFactory endpointFactory,
-      ActivationSpec spec) throws ResourceException
+   public void endpointActivation(final MessageEndpointFactory endpointFactory,
+                                  final ActivationSpec spec) throws ResourceException
    {
-      RadiusActivation activation = new RadiusActivation(this, endpointFactory, (RadiusActivationSpec)spec);
-      activations.put((RadiusActivationSpec)spec, activation);
+       activation = new RadiusActivation(this, endpointFactory, (RadiusActivationSpec) spec);
       activation.start();
+
+       workManager.scheduleWork(new Work() {
+           @Override
+           public void release() {
+
+           }
+
+           @Override
+           public void run() {
+               try {
+                   MessageEndpoint endpoint = endpointFactory.createEndpoint(null);
+                   worker = new Worker((RadiusActivationSpec) spec, endpoint, workManager);
+                   workManager.scheduleWork(worker);
+               } catch (UnavailableException e) {
+                   e.printStackTrace();
+               } catch (WorkException e) {
+                   e.printStackTrace();
+               }
+           }
+       });
+
+
 
       log.finest("endpointActivation()");
 
@@ -92,9 +110,9 @@ public class RadiusResourceAdapter implements ResourceAdapter, java.io.Serializa
    public void endpointDeactivation(MessageEndpointFactory endpointFactory,
       ActivationSpec spec)
    {
-      RadiusActivation activation = activations.remove(spec);
       if (activation != null)
          activation.stop();
+       worker.release();
 
       log.finest("endpointDeactivation()");
 
@@ -110,6 +128,7 @@ public class RadiusResourceAdapter implements ResourceAdapter, java.io.Serializa
       throws ResourceAdapterInternalException
    {
       log.finest("start()");
+       workManager = ctx.getWorkManager();
 
    }
 

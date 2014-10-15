@@ -1,5 +1,11 @@
 package net.ffff.wauth.protocol;
 
+import net.ffff.wauth.inflow.RadiusMessageListener;
+
+import javax.resource.spi.endpoint.MessageEndpoint;
+import javax.resource.spi.work.Work;
+import java.net.DatagramPacket;
+
 /**
  * Copyright (c) 2013 Amdocs jNetX.
  * http://www.amdocs.com
@@ -17,9 +23,25 @@ package net.ffff.wauth.protocol;
  * $Id:
  */
 
-public class RadiusParser {
+public class RadiusParser implements Work {
 
-    public static RadiusRequest parse() {
-        return null;
+    private DatagramPacket packet;
+    private MessageEndpoint endpoint;
+
+    public RadiusParser(DatagramPacket packet, MessageEndpoint endpoint) {
+        this.packet = packet;
+        this.endpoint = endpoint;
+    }
+
+    @Override
+    public void release() {
+
+    }
+
+    @Override
+    public void run() {
+
+        ((RadiusMessageListener) endpoint).onMessage(new RadiusRequest(new String(packet.getData())));
+
     }
 }
