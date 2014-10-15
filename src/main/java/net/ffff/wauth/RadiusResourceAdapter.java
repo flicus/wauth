@@ -39,7 +39,13 @@ import java.util.logging.Logger;
  *
  * @version $Revision: $
  */
-@Connector
+@Connector(
+        displayName = "RadiusRA",
+        vendorName = "0xffff.net",
+        version = "1.0",
+        transactionSupport = TransactionSupport.TransactionSupportLevel.NoTransaction,
+        reauthenticationSupport = false
+)
 public class RadiusResourceAdapter implements ResourceAdapter, java.io.Serializable
 {
 
