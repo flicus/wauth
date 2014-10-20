@@ -44,7 +44,7 @@ import javax.jms.Topic;
         },
         messageListenerInterface = net.ffff.wauth.inflow.RadiusMessageListener.class
 )
-@ResourceAdapter(value = "radius-ra-rar.rar")
+@ResourceAdapter(value = "radius-rar.rar")
 public class RadiusMDB implements RadiusMessageListener {
 
     @Resource(lookup = "java:app/wauth/radius")

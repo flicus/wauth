@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ffff.radius-ra</groupId>
-    <artifactId>radius-ra-ear</artifactId>
+    <artifactId>radius-ear</artifactId>
     <packaging>ear</packaging>
     <version>1.0</version>
 
@@ -16,13 +16,13 @@
     <dependencies>
         <dependency>
             <groupId>net.ffff.radius-ra</groupId>
-            <artifactId>radius-ra-ejb</artifactId>
+            <artifactId>radius-ejb</artifactId>
             <version>1.0</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>net.ffff.radius-ra</groupId>
-            <artifactId>radius-ra-rar</artifactId>
+            <artifactId>radius-rar</artifactId>
             <version>1.0</version>
             <type>rar</type>
         </dependency>
@@ -40,13 +40,13 @@
                     <modules>
                         <rarModule>
                             <groupId>net.ffff.radius-ra</groupId>
-                            <artifactId>radius-ra-rar</artifactId>
-                            <bundleFileName>radius-ra-rar.rar</bundleFileName>
+                            <artifactId>radius-rar</artifactId>
+                            <bundleFileName>radius-rar.rar</bundleFileName>
                         </rarModule>
                         <ejbModule>
                             <groupId>net.ffff.radius-ra</groupId>
-                            <artifactId>radius-ra-ejb</artifactId>
-                            <bundleFileName>radius-ra-ejb.jar</bundleFileName>
+                            <artifactId>radius-ejb</artifactId>
+                            <bundleFileName>radius-ejb.jar</bundleFileName>
                         </ejbModule>
                     </modules>
                 </configuration>

@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ffff.radius-ra</groupId>
-    <artifactId>radius-ra-ejb</artifactId>
+    <artifactId>radius-ejb</artifactId>
     <packaging>ejb</packaging>
     <version>1.0</version>
 
@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>net.ffff.radius-ra</groupId>
-            <artifactId>radius-ra-rar</artifactId>
+            <artifactId>radius-rar</artifactId>
             <version>1.0</version>
             <classifier>lib</classifier>
             <scope>provided</scope>

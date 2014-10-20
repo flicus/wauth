@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connector xmlns="http://java.sun.com/xml/ns/javaee"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+      	 http://java.sun.com/xml/ns/javaee/connector_1_6.xsd"
+           version="1.6">
+    <module-name>radius-ra-rar</module-name>
+    <vendor-name>0xffff.net</vendor-name>
+    <eis-type>radius</eis-type>
+    <resourceadapter-version>1.0.0</resourceadapter-version>
+    <resourceadapter>
+        <resourceadapter-class>net.ffff.wauth.RadiusResourceAdapter</resourceadapter-class>
+        <inbound-resourceadapter>
+            <messageadapter>
+                <messagelistener>
+                    <messagelistener-type>net.ffff.wauth.inflow.RadiusMessageListener</messagelistener-type>
+                    <activationspec>
+                        <activationspec-class>net.ffff.wauth.inflow.RadiusActivationSpec</activationspec-class>
+                    </activationspec>
+                </messagelistener>
+            </messageadapter>
+        </inbound-resourceadapter>
+    </resourceadapter>
+</connector>

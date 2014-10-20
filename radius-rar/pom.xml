@@ -4,7 +4,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.ffff.radius-ra</groupId>
-    <artifactId>radius-ra-rar</artifactId>
+    <artifactId>radius-rar</artifactId>
     <packaging>rar</packaging>
 
     <parent>
@@ -52,7 +52,7 @@
                 <artifactId>maven-rar-plugin</artifactId>
                 <version>${maven.rar.plugin.version}</version>
                 <configuration>
-                    <finalName>radius-ra-rar</finalName>
+                    <finalName>radius-rar</finalName>
                     <rarSourceDirectory>${basedir}/target/classes</rarSourceDirectory>
                 </configuration>
                 <executions>
@@ -62,7 +62,7 @@
                             <goal>rar</goal>
                         </goals>
                         <configuration>
-                            <raXmlFile>src/main/resources/META-INF/ra.xml</raXmlFile>
+                            <raXmlFile>src/main/resources/META-INF/ironjacamar.xml</raXmlFile>
                         </configuration>
                     </execution>
                 </executions>

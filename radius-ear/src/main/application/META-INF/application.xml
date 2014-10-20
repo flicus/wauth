@@ -6,10 +6,10 @@
     <description>radius-ra</description>
     <display-name>RadiusRA</display-name>
     <module>
-        <connector>radius-ra-rar.rar</connector>
+        <connector>radius-rar.rar</connector>
     </module>
     <module>
-        <ejb>radius-ra-ejb.jar</ejb>
+        <ejb>radius-ejb.jar</ejb>
     </module>
     <library-directory>lib</library-directory>
 </application>
