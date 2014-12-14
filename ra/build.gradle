@@ -156,7 +156,7 @@ def configurePom(def pom) {
             setProperty('project.build.sourceEncoding', 'UTF8')
         }
 
-        url 'https://github.com/flicus/radius-adaptor'
+        url 'https://github.com/flicus/wauth'
 
         developers {
             developer {
@@ -167,9 +167,9 @@ def configurePom(def pom) {
         }
 
         scm {
-            url 'https://github.com/flicus/radius-adaptor'
-            connection 'scm:git:git@github.com:flicus/radius-adaptor.git'
-            developerConnection 'scm:git:git@github.com:flicus/radius-adaptor.git'
+            url 'https://github.com/flicus/wauth'
+            connection 'scm:git:git@github.com:flicus/wauth.git'
+            developerConnection 'scm:git:git@github.com:flicus/wauth.git'
         }
 
         licenses {
