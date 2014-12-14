@@ -1,0 +1,3 @@
+/subsystem=resource-adapters/resource-adapter=@RADIUSRA@/:add(archive=@RADIUSRA@,transaction-support=NoTransaction)
+/subsystem=resource-adapters/resource-adapter=@RADIUSRA@/connection-definitions=RadiusConnection/:add(class-name=org.ffff.wifi.ra.RadiusManagedConnectionFactory,jndi-name=java:/eis/RadiusConnectionFactory)
+/subsystem=resource-adapters/resource-adapter=@RADIUSRA@:activate

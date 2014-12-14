@@ -1,0 +1,12 @@
+rootProject.name = 'wifiauth'
+
+include 'radius'
+
+include 'auth'
+
+include 'ra'
+
+include 'auth-mdb'
+
+include 'testClient'
+
