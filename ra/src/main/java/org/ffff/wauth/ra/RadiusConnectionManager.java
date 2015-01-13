@@ -15,34 +15,38 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.ffff.wifi.auth;
+package org.ffff.wauth.ra;
 
-import org.ffff.wauth.protocol.RadiusRequest;
-import org.ffff.wauth.ra.inflow.RadiusMessageListener;
-import org.jboss.ejb3.annotation.ResourceAdapter;
-
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import java.util.logging.Logger;
+import javax.resource.ResourceException;
+import javax.resource.spi.ConnectionManager;
+import javax.resource.spi.ConnectionRequestInfo;
+import javax.resource.spi.ManagedConnection;
+import javax.resource.spi.ManagedConnectionFactory;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by flicus on 14.12.2014.
  */
-@MessageDriven(
-        name = "RadiusMonitor",
-        messageListenerInterface = RadiusMessageListener.class,
-        activationConfig = {
-            @ActivationConfigProperty(propertyName = "port", propertyValue = "4444")
-        }
-)
-@ResourceAdapter("@RADIUSRA@")
-public class RadiusMonitor implements RadiusMessageListener {
-    private static Logger log = Logger.getLogger(RadiusMonitor.class.getName());
+public class RadiusConnectionManager implements ConnectionManager {
+
+    private Set<ManagedConnection> connections = new HashSet<ManagedConnection>();
+
 
     @Override
-    public void onMessage(RadiusRequest request) {
-        log.info("Incoming radius request:: "+request);
-        System.out.println("Incoming radius request:: "+request);
-        request.makeResponse().addField("response").send();
+    public Object allocateConnection(ManagedConnectionFactory managedConnectionFactory, ConnectionRequestInfo connectionRequestInfo) throws ResourceException {
+        ManagedConnection mc = managedConnectionFactory.createManagedConnection(null, connectionRequestInfo);
+        Object c = mc.getConnection(null, connectionRequestInfo);
+        return c;
+    }
+
+    public void stop() {
+        for (ManagedConnection connection : connections) {
+            try {
+                connection.destroy();
+            } catch (Throwable e) {
+
+            }
+        }
     }
 }

@@ -1,0 +1,5 @@
+dependencies {
+    compile "org.infinispan:infinispan-core:6.0.2.Final"
+    compile "net.jcip:jcip-annotations:1.0"
+    compile "org.mongodb:mongo-java-driver:2.11.4"
+}

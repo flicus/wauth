@@ -14,5 +14,7 @@ include 'auth-mdb'
 
 include 'testClient'
 
+include 'cachestore-mongodb'
 
+include 'radius-balancer'
 

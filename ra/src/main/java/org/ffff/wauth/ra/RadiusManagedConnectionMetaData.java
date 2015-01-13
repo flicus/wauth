@@ -15,34 +15,32 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.ffff.wifi.auth;
+package org.ffff.wauth.ra;
 
-import org.ffff.wauth.protocol.RadiusRequest;
-import org.ffff.wauth.ra.inflow.RadiusMessageListener;
-import org.jboss.ejb3.annotation.ResourceAdapter;
-
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import java.util.logging.Logger;
+import javax.resource.ResourceException;
+import javax.resource.spi.ManagedConnectionMetaData;
 
 /**
  * Created by flicus on 14.12.2014.
  */
-@MessageDriven(
-        name = "RadiusMonitor",
-        messageListenerInterface = RadiusMessageListener.class,
-        activationConfig = {
-            @ActivationConfigProperty(propertyName = "port", propertyValue = "4444")
-        }
-)
-@ResourceAdapter("@RADIUSRA@")
-public class RadiusMonitor implements RadiusMessageListener {
-    private static Logger log = Logger.getLogger(RadiusMonitor.class.getName());
+public class RadiusManagedConnectionMetaData implements ManagedConnectionMetaData {
+    @Override
+    public String getEISProductName() throws ResourceException {
+        return "radius";
+    }
 
     @Override
-    public void onMessage(RadiusRequest request) {
-        log.info("Incoming radius request:: "+request);
-        System.out.println("Incoming radius request:: "+request);
-        request.makeResponse().addField("response").send();
+    public String getEISProductVersion() throws ResourceException {
+        return null;
+    }
+
+    @Override
+    public int getMaxConnections() throws ResourceException {
+        return 0;
+    }
+
+    @Override
+    public String getUserName() throws ResourceException {
+        return "radius-user";
     }
 }

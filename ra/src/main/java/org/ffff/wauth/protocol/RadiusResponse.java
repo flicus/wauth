@@ -15,34 +15,46 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.ffff.wifi.auth;
+package org.ffff.wauth.protocol;
 
-import org.ffff.wauth.protocol.RadiusRequest;
-import org.ffff.wauth.ra.inflow.RadiusMessageListener;
-import org.jboss.ejb3.annotation.ResourceAdapter;
-
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import java.util.logging.Logger;
+import org.ffff.wauth.ra.inflow.RadiusActivation;
 
 /**
  * Created by flicus on 14.12.2014.
  */
-@MessageDriven(
-        name = "RadiusMonitor",
-        messageListenerInterface = RadiusMessageListener.class,
-        activationConfig = {
-            @ActivationConfigProperty(propertyName = "port", propertyValue = "4444")
-        }
-)
-@ResourceAdapter("@RADIUSRA@")
-public class RadiusMonitor implements RadiusMessageListener {
-    private static Logger log = Logger.getLogger(RadiusMonitor.class.getName());
+public class RadiusResponse extends RadiusPacket {
+
+    private RadiusRequest request;
+    private StringBuilder data = new StringBuilder();
+    private RadiusActivation activation;
+
+    public RadiusResponse(RadiusRequest request, RadiusActivation activation) {
+        this.request = request;
+        this.activation = activation;
+    }
+
+    public RadiusResponse addField(String field) {
+        data.append(field);
+        return this;
+    }
+
+    public void send() {
+        activation.sendResponse(this);
+    }
+
+    public String getMessage() {
+        return data.toString();
+    }
+
+    public RadiusRequest getRequest() {
+        return request;
+    }
 
     @Override
-    public void onMessage(RadiusRequest request) {
-        log.info("Incoming radius request:: "+request);
-        System.out.println("Incoming radius request:: "+request);
-        request.makeResponse().addField("response").send();
+    public String toString() {
+        return "RadiusResponse{" +
+                "request=" + request +
+                ", data=" + data +
+                '}';
     }
 }

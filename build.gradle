@@ -8,9 +8,14 @@ task filter(type: Copy) {
 
 build.dependsOn filter
 
-
 uploadArchives.enabled = false
 jar.enabled = false
+
+configurations {
+    compile {
+        transitive = true
+    }
+}
 
 subprojects {
     apply plugin: 'java'
@@ -30,16 +35,9 @@ subprojects {
         maven { url 'http://jesperpedersen.github.com/fungal/maven2/' }
     }
 
-    test {
-
-        // Make sure tests are always run!
-        outputs.upToDateWhen { false }
-
-        // Show output
-        testLogging.showStandardStreams = true
-
-        testLogging { exceptionFormat "full" }
-
+    dependencies {
+        compile "javax:javaee-api:7.0"
+        compile "javax.validation:validation-api:$validationVersion"
     }
 
 }

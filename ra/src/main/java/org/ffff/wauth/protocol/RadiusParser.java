@@ -15,34 +15,28 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.ffff.wifi.auth;
+package org.ffff.wauth.protocol;
 
-import org.ffff.wauth.protocol.RadiusRequest;
-import org.ffff.wauth.ra.inflow.RadiusMessageListener;
-import org.jboss.ejb3.annotation.ResourceAdapter;
-
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import java.util.logging.Logger;
+import org.ffff.wauth.ra.inflow.RadiusActivation;
 
 /**
  * Created by flicus on 14.12.2014.
  */
-@MessageDriven(
-        name = "RadiusMonitor",
-        messageListenerInterface = RadiusMessageListener.class,
-        activationConfig = {
-            @ActivationConfigProperty(propertyName = "port", propertyValue = "4444")
-        }
-)
-@ResourceAdapter("@RADIUSRA@")
-public class RadiusMonitor implements RadiusMessageListener {
-    private static Logger log = Logger.getLogger(RadiusMonitor.class.getName());
+public class RadiusParser {
 
-    @Override
-    public void onMessage(RadiusRequest request) {
-        log.info("Incoming radius request:: "+request);
-        System.out.println("Incoming radius request:: "+request);
-        request.makeResponse().addField("response").send();
+    private RadiusActivation activation;
+
+    public RadiusParser(RadiusActivation activation) {
+        this.activation = activation;
+    }
+
+    public RadiusRequest decode(byte[] packet) {
+
+        return new RadiusRequest(new String(packet).trim(), activation);
+    }
+
+    public byte[] encode(RadiusResponse response) {
+
+        return response.getMessage().getBytes();
     }
 }

@@ -1,0 +1,21 @@
+<cache-container name="sessions" default-cache="cachedb">
+    <transport lock-timeout="60000"/>
+    <distributed-cache name="cachedb" mode="ASYNC" batching="true" l1-lifespan="0" owners="2">
+        <transaction mode="NONE"/>
+        <eviction strategy="LIRS" max-entries="10000"/>
+        <mongodbStore xmlns="urn:infinispan:config:mongodb:6.0">
+            <connection hostname="localhost" port="27017" timeout="2000" acknowledgment="0"/>
+            <authentication username="mongoUser" password="mongoPass"/>
+            <storage database="infinispan_test_database" collection="infispan_cachestore"/>
+        </mongodbStore>
+    </distributed-cache>
+</cache-container>
+
+<cache-container name="sessions" default-cache="cachedb">
+<transport lock-timeout="60000"/>
+<distributed-cache name="cachedb" mode="ASYNC" batching="true" l1-lifespan="0" owners="2">
+    <transaction mode="NONE"/>
+    <eviction strategy="LIRS" max-entries="10000"/>
+    <file-store/>
+</distributed-cache>
+</cache-container>

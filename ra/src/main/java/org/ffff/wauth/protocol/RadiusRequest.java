@@ -15,34 +15,62 @@
  * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package org.ffff.wifi.auth;
+package org.ffff.wauth.protocol;
 
-import org.ffff.wauth.protocol.RadiusRequest;
-import org.ffff.wauth.ra.inflow.RadiusMessageListener;
-import org.jboss.ejb3.annotation.ResourceAdapter;
+import org.ffff.wauth.ra.inflow.RadiusActivation;
 
-import javax.ejb.ActivationConfigProperty;
-import javax.ejb.MessageDriven;
-import java.util.logging.Logger;
+import java.net.InetAddress;
 
 /**
  * Created by flicus on 14.12.2014.
  */
-@MessageDriven(
-        name = "RadiusMonitor",
-        messageListenerInterface = RadiusMessageListener.class,
-        activationConfig = {
-            @ActivationConfigProperty(propertyName = "port", propertyValue = "4444")
-        }
-)
-@ResourceAdapter("@RADIUSRA@")
-public class RadiusMonitor implements RadiusMessageListener {
-    private static Logger log = Logger.getLogger(RadiusMonitor.class.getName());
+public class RadiusRequest extends RadiusPacket {
+
+    private String message;
+    private RadiusActivation activation;
+    private InetAddress address;
+    private int port;
+
+    public RadiusRequest(String message, RadiusActivation activation) {
+        this.message = message;
+        this.activation = activation;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public InetAddress getAddress() {
+        return address;
+    }
+
+    public void setAddress(InetAddress address) {
+        this.address = address;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 
     @Override
-    public void onMessage(RadiusRequest request) {
-        log.info("Incoming radius request:: "+request);
-        System.out.println("Incoming radius request:: "+request);
-        request.makeResponse().addField("response").send();
+    public String toString() {
+        return "RadiusRequest{" +
+                "message='" + message + '\'' +
+                ", address=" + address +
+                ", port=" + port +
+                '}';
     }
+
+    public RadiusResponse makeResponse() {
+        return new RadiusResponse(this, activation).addField(message);
+    }
+
 }

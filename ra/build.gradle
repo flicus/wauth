@@ -1,22 +1,7 @@
 defaultTasks 'rar'
 
-configurations {
-    compile {
-        transitive = true
-    }
-    provided
-}
-
-sourceSets {
-    main {
-        compileClasspath = compileClasspath + configurations.provided
-    }
-}
-
 dependencies {
-    provided "javax.validation:validation-api:$validationVersion"
-    provided "org.jboss.ironjacamar:ironjacamar-spec-api:$ijVersion"
-    compile "javax:javaee-api:7.0"
+    compile "org.jboss.ironjacamar:ironjacamar-spec-api:$ijVersion"
     testCompile "org.jboss.ironjacamar:ironjacamar-arquillian-embedded:$ijVersion"
     testCompile "org.jboss.ironjacamar:ironjacamar-arquillian-embedded-byteman:$ijVersion"
     testCompile "org.jboss.ironjacamar:ironjacamar-common-api:$ijVersion"
@@ -36,7 +21,7 @@ dependencies {
 
 javadoc {
     source = sourceSets.main.allJava
-    classpath = sourceSets.main.compileClasspath + configurations.provided
+    classpath = sourceSets.main.compileClasspath
 }
 
 task sourceJar(type: Jar) {
