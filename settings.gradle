@@ -1,5 +1,9 @@
 rootProject.name = 'wauth'
 
+include 'auth-api'
+
+include 'auth-ear'
+
 include 'radius'
 
 include 'auth'
@@ -9,4 +13,6 @@ include 'ra'
 include 'auth-mdb'
 
 include 'testClient'
+
+
 
