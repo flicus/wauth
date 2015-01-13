@@ -1,3 +1,11 @@
+package org.ffff.wauth;
+
+import org.ffff.wauth.logic.Authenticator;
+import org.ffff.wauth.logic.RemoteAuthenticator;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -14,14 +22,19 @@ public class Balancer implements Runnable {
 
     private final Lock serverSocketLock = new ReentrantLock();
     final private ExecutorService taskExecutor = Executors.newCachedThreadPool();
+    private final Context context;
+    private final RemoteAuthenticator authenticator;
     private volatile boolean isStarted = false;
     private Sender sender;
     private DatagramSocket serverSocket;
 
-    public Balancer() {
+    public Balancer() throws NamingException {
+        System.out.println("balancer create");
+        context = new InitialContext();
+        authenticator = (RemoteAuthenticator) context.lookup("ejb:wifi/auth//" + Authenticator.class.getSimpleName() + "!" + RemoteAuthenticator.class.getName());
         sender = new Sender();
         try {
-            serverSocket = new DatagramSocket(1812, InetAddress.getByName("localhost"));
+            serverSocket = new DatagramSocket(1812, InetAddress.getByName("127.0.0.1"));
             serverSocket.setSoTimeout(5000);
 //            serverSocket.setReceiveBufferSize(4096);
 //            serverSocket.setSendBufferSize(4096);
@@ -37,13 +50,14 @@ public class Balancer implements Runnable {
             Thread t = new Thread(balancer, "radius-balancer");
             t.start();
             t.join();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void run() {
+        System.out.println("balancer run");
         isStarted = true;
         try {
             sender.start();
@@ -66,6 +80,7 @@ public class Balancer implements Runnable {
     }
 
     public void clear() {
+        System.out.println("balancer stop");
         sender.stop();
         if (serverSocket != null) {
             if (!serverSocket.isClosed()) {
@@ -82,6 +97,7 @@ public class Balancer implements Runnable {
         private Thread senderThread;
 
         public void start() {
+            System.out.println("sender start");
             senderThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -100,6 +116,7 @@ public class Balancer implements Runnable {
         }
 
         private void sendInternal(final DatagramPacket packet) {
+            System.out.println("sender:: send");
             Runnable task = new Runnable() {
                 @Override
                 public void run() {
@@ -121,6 +138,7 @@ public class Balancer implements Runnable {
         }
 
         public void stop() {
+            System.out.println("sender stop");
             if (senderThread != null) {
                 if (senderThread.isAlive()) {
                     senderThread.interrupt();
@@ -145,8 +163,8 @@ public class Balancer implements Runnable {
 
         @Override
         public void run() {
-            //todo call remote ejb
-            byte[] data = new byte[]{};
+            System.out.println("handler::incoming packet");
+            byte[] data = authenticator.execute(packetIn.getData());
             DatagramPacket packetOut = new DatagramPacket(data, 0, data.length, packetIn.getAddress(), packetIn.getPort());
             sender.send(packetOut);
         }

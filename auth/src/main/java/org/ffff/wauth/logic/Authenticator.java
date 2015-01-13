@@ -1,6 +1,5 @@
 package org.ffff.wauth.logic;
 
-import org.ffff.wauth.Dialog;
 import org.infinispan.manager.CacheContainer;
 
 import javax.annotation.PostConstruct;
@@ -31,7 +30,7 @@ public class Authenticator implements RemoteAuthenticator {
         this.cache = container.getCache();
     }
 
-    public byte[] execute(Dialog incoming) {
+    public byte[] execute(byte[] incoming) {
         this.logger.info("onAuth");
         String nodeName = System.getProperty("jboss.node.name");
         return nodeName.getBytes();

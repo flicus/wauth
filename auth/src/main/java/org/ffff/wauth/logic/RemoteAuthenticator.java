@@ -1,7 +1,5 @@
 package org.ffff.wauth.logic;
 
-import org.ffff.wauth.Dialog;
-
 import javax.ejb.Remote;
 
 /**
@@ -9,5 +7,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface RemoteAuthenticator {
-    byte[] execute(Dialog dialog);
+    byte[] execute(byte[] request);
 }

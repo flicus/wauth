@@ -28,15 +28,18 @@ public class Test1 {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         DatagramSocket socket = new DatagramSocket();
-        InetAddress IPAddress = InetAddress.getLocalHost();
-        int port = 4444;
+        InetAddress IPAddress = InetAddress.getByName("127.0.0.1");
+        int port = 1812;
         byte[] data = "hello!".getBytes();
-        DatagramPacket packet = new DatagramPacket(data, data.length, IPAddress, port);
-        socket.send(packet);
-        Thread.sleep(1000);
-        DatagramPacket p = new DatagramPacket(new byte[4096], 4096);
-        socket.receive(p);
-        System.out.println(new String(p.getData()));
+
+        for (int i = 0; i <= 10; i++) {
+            DatagramPacket packet = new DatagramPacket(data, data.length, IPAddress, port);
+            socket.send(packet);
+//        Thread.sleep(1000);
+            DatagramPacket p = new DatagramPacket(new byte[4096], 4096);
+            socket.receive(p);
+            System.out.println(new String(p.getData()));
+        }
 
     }
 }
